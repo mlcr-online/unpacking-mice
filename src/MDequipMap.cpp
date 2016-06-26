@@ -27,6 +27,8 @@
 #include "MDfragmentVLSB_C.h"
 #include "MDfragmentVLSB.h"
 #include "MDfragmentVLSBMaster.h"
+#include "MDfragmentV1495.h"
+#include "MDfragmentEI.h"
 
 int MDequipMap::_count = 0;
 equipMap_t MDequipMap::_equipMap;
@@ -45,7 +47,8 @@ MDequipMap::MDequipMap()
     ADD_EQUIP_IN_MAP(80,  VLSB_C);
     ADD_EQUIP_IN_MAP(132, VLSB);
     ADD_EQUIP_IN_MAP(130, VLSBMaster);
-
+    ADD_EQUIP_IN_MAP(151, V1495);
+    ADD_EQUIP_IN_MAP(201, EI);
     SetEquipmentTypes();
 //     Dump();
   } else {

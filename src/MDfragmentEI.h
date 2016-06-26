@@ -15,44 +15,39 @@
  *
  */
 
-#ifndef __MDFRAGMENTV1495_H
-#define __MDFRAGMENTV1495_H
+#ifndef __MDFRAGMENT_EI_H
+#define __MDFRAGMENT_EI_H
+
+#include <iostream>
 
 #include "MDdataContainer.h"
 #include "MDfragment.h"
-#include "MDdataWordV1495.h"
-#include <iostream>
+#include "MDdataWordEI.h"
 
-
-class MDfragmentV1495 : public MDfragment {
-
+class MDfragmentEI : public MDfragment {
  public:
-
-  MDfragmentV1495(void *d = 0);
-  virtual ~MDfragmentV1495(){}
+  MDfragmentEI(void *d = 0) : MDfragment(d) { Init(); }
+  virtual ~MDfragmentEI() {}
 
   void SetDataPtr( void *d, uint32_t aSize );
   void Init();
-  void Dump(int atTheTime=1);
+  void Dump(int atTheTime=1) {cout << *this;}
 
-  unsigned int GetSpillNumber()  {return _spillNum;}
-  unsigned int GetNumTriggers()  {return _nTriggers;}
+  unsigned int GetPvId(unsigned int i);
+  double       GetPvValue(unsigned int i);
+  unsigned int GetNPVs() const   {return _pv_id.size();}
   unsigned int GetGeo()          {return _geo;}
 
-  unsigned int GetTriggerTime(unsigned int tr);
-  unsigned long32 GetPatternTOF0(unsigned int tr, char p='n');
-  unsigned long32 GetPatternTOF1(unsigned int tr, char p='n');
-  unsigned long32 GetPatternTOF2(unsigned int tr, char p='n');
+  friend ostream &operator<<(std::ostream &s,MDfragmentEI &df);
 
  private:
-
   unsigned int _geo;
-  unsigned int _spillNum;     /// Number of Spills received by the DBB since last reset
-  unsigned int _nTriggers;    /// Number of triggers received
+  std::vector<int>     _pv_id;
+  std::vector<double>  _pv_value;
+
 };
 
-ostream &operator<<(std::ostream &s,MDfragmentV1495 &df);
+
 
 #endif
-
 

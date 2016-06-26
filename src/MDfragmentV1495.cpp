@@ -25,6 +25,12 @@ void MDfragmentV1495::SetDataPtr(void *d, uint32_t aSize=0) {
 }
 
 void MDfragmentV1495::Init() {
+  _madeOfParticles = false;
+  UnValidate();
+
+  if (this->GetSize() == 0)
+    return;
+
   MDdataWordV1495 dw(_payLoad);
   if (dw.GetDataType() != MDdataWordV1495::Header) {
     throw MDexception("ERROR in MDfragmentV1495::Init() : 1st word is not a header") ;
@@ -123,7 +129,7 @@ unsigned long32 MDfragmentV1495::GetPatternTOF2(unsigned int tr, char p) {
     return pattern;
 }
 
-void MDfragmentV1495::Dump() {
+void MDfragmentV1495::Dump(int atTheTime) {
   cout << *this;
   return;
 }
@@ -138,12 +144,15 @@ ostream &operator<<(std::ostream &s,MDfragmentV1495 &df) {
   for (unsigned int i=0; i < nTr; i++) {
     if (i>299)
       s << "tr" << i << " no record" << endl;
-    else
-      s << "tr" << i << " time: " << df.GetTriggerTime(i)*10 << " ns"
+    else {
+      MDdataWordV1495 dw( df.Get32bWordPtr(i*3 + 3) );
+      s << "tr" << i << " (" << dw.GetTriggerCount() << ")"
+        << "  time: " << df.GetTriggerTime(i)*10 << " ns"
         << "  Pattern TOF0(" << std::hex << df.GetPatternTOF0(i) << ")"
         << "  TOF1(" <<  df.GetPatternTOF1(i) << ")"
         << "  TOF2(" <<  df.GetPatternTOF2(i) << ")"
         << std::dec << endl;
+    }
   }
   s << " --------------------------------------------------- " << endl ;
   return s;
