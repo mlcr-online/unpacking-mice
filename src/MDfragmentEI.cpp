@@ -44,7 +44,6 @@ void MDfragmentEI::Init() {
       throw MDexception("ERROR in MDframentEI::Init() : 1st word is not a HP header");
     } else {
       int nPVs = dw.getHpHeaderSize();
-      cout << " n PVs : " << nPVs << endl;
       _pv_id.resize(nPVs);
       _pv_value.resize(nPVs);
       for (int i=0; i<nPVs; ++i) {

@@ -46,6 +46,7 @@ void MDfragmentV1495::Init() {
   }
 
   _nTriggers = dw.GetNTriggers();
+  Validate();
 }
 
 
